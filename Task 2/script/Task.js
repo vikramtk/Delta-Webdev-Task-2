@@ -3,12 +3,17 @@ Buttons.onclick = runner;
 
 let start = 0;
 let clickok = -1;
+var integer;
 var flag = 0;
 const scores = document.getElementById('sc');
 const hscore = document.getElementById('hs');
 
 var last = localStorage.getItem("highscore");
-hscore.innerHTML=last;
+if(last != NaN && last != null){
+integer = parseInt(last);
+hscore.innerHTML=integer;}
+if(last == NaN)
+hscore.innerHTML = 0;
 
 function runner(){
 if (start == 0) {
@@ -38,12 +43,24 @@ start =1;
 loop();
 scores.innerHTML = '0';
 setInterval( increment, 200);
+
+var last = localStorage.getItem("highscore");
+integer = parseInt(last);
+if(last == NaN || last == null)
+hscore.innerHTML = 0;
+else
+hscore.innerHTML=integer;
 }
 }
 
 function increment(){
   if(start==1)
   scores.innerHTML++;
+
+  if(integer < (scores.innerHTML)){
+    localStorage.setItem("highscore", scores.innerHTML);
+    hscore.innerHTML=scores.innerHTML;
+    }
 }
 
 var body = document.getElementById('canvas');
@@ -153,11 +170,6 @@ function nothing(){
  
 function gameover(){
   alert("GAME OVER"+  "\n" + "Your score is:" + (scores.innerHTML) );
-
-  if((hscore.innerHTML) < (scores.innerHTML)){
-  localStorage.setItem("highscore", scores.innerHTML);
-  hscore.innerHTML=scores.innerHTML;
-  }
 
   start=0;
   const canvas = document.getElementById('canvas');
